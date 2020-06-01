@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 import urllib.request
-import json, datetime
+import json, datetime, os
 
 def get_pub_datetime(item):
   pub_datetime_str = item.find('pubDate').text
@@ -14,13 +14,13 @@ def is_published_today(item):
     return True
   return False
 
-
-CONF_FILE = 'config.json' #os.path.join(os.environ['APP_HOME'], 'config.json')
+CONF_FILE = 'config.json'
 
 with open(CONF_FILE) as cfg:
   CONFIG_JSON = json.load(cfg)
 
-morning_briefing_url = CONFIG_JSON['url']['morning_briefing']
+morning_briefing_url = CONFIG_JSON['morning_briefing']['url']
+morning_briefing_output = CONFIG_JSON['morning_briefing']['output']
 
 page = urllib.request.urlopen(morning_briefing_url)
 
@@ -36,4 +36,4 @@ for item in items:
     channel.remove(item)
 
 output_tree = ET.ElementTree(element=tree)
-output_tree.write('briefing.xml', encoding='UTF-8', xml_declaration=True)
+output_tree.write(os.path.join(os.getcwd(), morning_briefing_output), encoding='UTF-8', xml_declaration=True)

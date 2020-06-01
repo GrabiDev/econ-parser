@@ -1,5 +1,6 @@
 {
-  "url": {
-      "morning_briefing": "YOUR_SUBSCRIPTION_URL"
+  "morning_briefing": {
+    "url": "YOUR SUBSCRIPTION URL",
+    "output": "name_of_the_output_file"
   }
 }
