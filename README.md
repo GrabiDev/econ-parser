@@ -14,7 +14,7 @@ The script downloads the Morning Briefing feed from The Economist, parses it to 
 
 Steps below describe how to set up Surge hosting and connect it to your Alexa-enabled device.
 
-For the best result for UK edition of The Economist, the script should be scheduled (e.g. as Cron job on Unix-like systems) to execute every day around 7:45am UTC.
+For the best result for UK edition of The Economist, the script should be scheduled (e.g. as Cron job on Unix-like systems) to execute every day around 7:00am UTC.
 
 Morning Briefing (and Espresso) come out every morning except Sundays.
 This script addresses the issue by generating an empty feed on Sundays, preventing Alexa from playing the same briefing twice.
@@ -76,7 +76,7 @@ No public IP address is required for the solution to work, thanks to the Surge s
 Depending on your setup, make sure `docker run --rm --env-file /location/to/your/env-file grabidev/econ-parser:latest` is executed every morning.
 Use your target operating system's best practices to schedule the job.
 
-In Britain, the task should run around 7:30am UTC.
+In Britain, the task should run around 7:00am UTC.
 Regional editions of The Economist will have different release times for their briefings.
 
 # Create a custom Alexa skill
