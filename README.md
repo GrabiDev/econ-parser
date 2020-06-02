@@ -1,5 +1,8 @@
 # Description
 This script serves paid The Economist digital subscribers, who want to add The Economist Morning Briefing Full Edition to their Flash Briefings on an Alexa-enabled device.
+There is an official `The Economist Morning Briefing` Alexa skill, but there is no way to sign into your paid subscription.
+As a result, the official skill plays shorter briefing and contains ads.
+
 To streamline the whole process, the app has been packaged into a Docker container.
 
 The process of obtaining the custom link and deployment is fairly complex and not recommended for individuals without sufficient IT experience.
@@ -41,7 +44,7 @@ All of the variables below need to be defined in the container for the script to
 | `BRIEFING_URL`| Your custom subscriber's URL to Morning Briefings Full Edition obtained in the previous steps. | `https://access.acast.com/rss/...` |
 | `SURGE_LOGIN` | Email address you associated with your Surge account.           |  `john@example.com`                |
 | `SURGE_TOKEN` | String of random letters and numbers displayed after executing `surge token` command. | `oXdqFHkdTngrtcECsucrkw6qGXw56SWrB` |
-| `SURGE_DOMAIN`| URL under which you want to publish your processed feed         |  `page-name.surge.sh`              |
+| `SURGE_DOMAIN`| URL under which you want to publish your processed feed.        |  `page-name.surge.sh`              |
 
 When using Docker, you can conveniently save them all in the single file in the following format and import them later:
 
@@ -61,17 +64,16 @@ Docker significantly simplifies deployment of this already complex solution.
 Make sure Docker is installed on the machine on which you execute these steps.
 
 Test your setup using the following steps:
-1. Pull the Docker container 
-2. Test your container by executing `docker run --rm --env-file /location/to/your/env-file econ-parser`, replacing `/location/to/your/env-file` with location of the file with environmental variables defined in the previous step.
-3. If everything is correctly set up, you should see a confirmation from Surge CLI.
-4. Open your web browser and navigate to your `briefing.xml` file somewhere online.
+1. Test your container by executing `docker run --rm --env-file /location/to/your/env-file grabidev/econ-parser:latest`, replacing `/location/to/your/env-file` with location of the file with environmental variables defined in the previous step.
+2. If everything is correctly set up, you should see a confirmation from Surge CLI.
+3. Open your web browser and navigate to your `briefing.xml` file somewhere online.
    Your URL probably looks similar to: `https://page-name.surge.sh/briefing.xml`
-5. If you can see file with XML code and no errors, the script was successfully executed in the container.
+4. If you can see file with XML code and no errors, the script was successfully executed in the container.
 
 Once you test your settings, deploy the container to a local Docker instance, such as a Raspberry Pi, on-premise or remote server or cloud environment.
 No public IP address is required for the solution to work, thanks to the Surge service.
 
-Depending on your setup, make sure `docker run --rm --env-file /location/to/your/env-file econ-parser` is executed every morning.
+Depending on your setup, make sure `docker run --rm --env-file /location/to/your/env-file grabidev/econ-parser:latest` is executed every morning.
 Use your target operating system's best practices to schedule the job.
 
 In Britain, the task should run around 7:30am UTC.
