@@ -14,13 +14,8 @@ def is_published_today(item):
     return True
   return False
 
-CONF_FILE = 'config.json'
-
-with open(CONF_FILE) as cfg:
-  CONFIG_JSON = json.load(cfg)
-
-morning_briefing_url = CONFIG_JSON['morning_briefing']['url']
-morning_briefing_output = CONFIG_JSON['morning_briefing']['output']
+morning_briefing_url = os.environ['BRIEFING_URL']
+morning_briefing_output = os.environ['OUTPUT_XML']
 
 page = urllib.request.urlopen(morning_briefing_url)
 
