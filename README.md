@@ -45,6 +45,8 @@ All of the variables below need to be defined in the container for the script to
 | `SURGE_LOGIN` | Email address you associated with your Surge account.           |  `john@example.com`                |
 | `SURGE_TOKEN` | String of random letters and numbers displayed after executing `surge token` command. | `oXdqFHkdTngrtcECsucrkw6qGXw56SWrB` |
 | `SURGE_DOMAIN`| URL under which you want to publish your processed feed.        |  `page-name.surge.sh`              |
+| `WAIT_TIME_MINUTES`| Number of minutes to wait before retrying on a failed attempt between Monday and Saturday.| `5` |
+| `MAX_ATTEMPTS`| Maximum number of attempts when feed empty (`-1` for no limit). | `10`                               |
 
 When using Docker, you can conveniently save them all in the single file in the following format and import them later:
 
