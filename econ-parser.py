@@ -1,17 +1,29 @@
 import xml.etree.ElementTree as ET
 import urllib.request
-import json, datetime, os
+import json, datetime, os, sys
 from time import sleep
 
 BRIEFING_URL = os.environ['BRIEFING_URL']
 OUTPUT_XML = os.environ['OUTPUT_XML']
-WAIT_TIME_MINUTES = os.environ['WAIT_TIME_MINUTES']
+WAIT_TIME_MINUTES = 5
 MAX_ATTEMPTS = -1 # no limit by default
+MAX_RECONNECT_ATTEMPTS = 5
+RECONNECT_TIME_MINUTES = 1
 
-if os.environ['MAX_ATTEMPTS']:
-  MAX_ATTEMPTS = os.environ['MAX_ATTEMPTS']
+if 'WAIT_TIME_MINUTES' in os.environ:
+  WAIT_TIME_MINUTES = int(os.environ['WAIT_TIME_MINUTES'])
+
+if 'MAX_ATTEMPTS' in os.environ:
+  MAX_ATTEMPTS = int(os.environ['MAX_ATTEMPTS'])
+
+if 'MAX_RECONNECT_ATTEMPTS' in os.environ:
+  MAX_RECONNECT_ATTEMPTS = int(os.environ['MAX_RECONNECT_ATTEMPTS'])
+
+if 'RECONNECT_TIME_MINUTES' in os.environ:
+  RECONNECT_TIME_MINUTES = int(os.environ['RECONNECT_TIME_MINUTES'])
 
 failed_attempts = 0
+reconnect_attempts = 0
 
 # parses item's timestamp to datetime object
 def get_pub_datetime(item):
@@ -27,10 +39,24 @@ def is_published_today(item):
     return True
   return False
 
+# downloads the whole feed from The Economist
 def get_root(briefing_url):
   page = urllib.request.urlopen(briefing_url)
-  return ET.fromstring(page.read())
+  # if page loaded correctly
+  if page.status == 200:
+    return ET.fromstring(page.read())
+  # otherwise reconnect, if within reconnection limit
+  else:
+    if reconnect_attempts < MAX_RECONNECT_ATTEMPTS:
+      sleep(RECONNECT_TIME_MINUTES*60)
+      reconnect_attempts += 1
 
+      return get_root(briefing_url)
+    # when limit reached, shut down
+    else:
+      sys.exit('Cannot connect to the feed. Check BRIEFING_URL and internet connection.')
+
+# Parses the downloaded feed and checks correctness
 def get_output_tree(root):
   channel = root.findall('channel')[0]
 

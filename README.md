@@ -37,7 +37,7 @@ This script addresses the issue by generating an empty feed on Sundays, preventi
 3. Run `surge login` and follow instructions to log in or create account.
 
 # Environmental variables
-All of the variables below need to be defined in the container for the script to work.
+All of the variables below need to be defined in the container for the script to work:
 
 | Variable      | Meaning                                                         | Sample value                       |
 | ------------- | --------------------------------------------------------------- | ---------------------------------- |
@@ -45,10 +45,17 @@ All of the variables below need to be defined in the container for the script to
 | `SURGE_LOGIN` | Email address you associated with your Surge account.           |  `john@example.com`                |
 | `SURGE_TOKEN` | String of random letters and numbers displayed after executing `surge token` command. | `oXdqFHkdTngrtcECsucrkw6qGXw56SWrB` |
 | `SURGE_DOMAIN`| URL under which you want to publish your processed feed.        |  `page-name.surge.sh`              |
-| `WAIT_TIME_MINUTES`| Number of minutes to wait before retrying on a failed attempt between Monday and Saturday.| `5` |
-| `MAX_ATTEMPTS`| Maximum number of attempts when feed empty (`-1` for no limit). | `10`                               |
 
-When using Docker, you can conveniently save them all in the single file in the following format and import them later:
+There are also some optional settings available:
+
+| Variable      | Meaning                                                         | Default value                      |
+| ------------- | --------------------------------------------------------------- | ---------------------------------- |
+| `WAIT_TIME_MINUTES`| Number of minutes to wait before retrying on a failed attempt between Monday and Saturday.| `5` |
+| `MAX_ATTEMPTS`| Maximum number of attempts when feed empty (`-1` for no limit). | `-1`                               |
+| `MAX_RECONNECT_ATTEMPTS`| Maximum number of attempts when no connection with feed server (`-1` for no limit).  | `5` |
+| `RECONNECT_TIME_MINUTES`| How long to wait before reconnecting attempt.         | `1`                                |
+
+When using Docker, you can conveniently save them all in a single file in the following format and import them later:
 
 ```BRIEFING_URL=https://access.acast.com/rss/...
 SURGE_LOGIN=john@example.com
