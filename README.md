@@ -50,7 +50,7 @@ There are also some optional settings available:
 
 | Variable      | Meaning                                                         | Default value                      |
 | ------------- | --------------------------------------------------------------- | ---------------------------------- |
-| `WAIT_TIME_MINUTES`| Number of minutes to wait before retrying on a failed attempt between Monday and Saturday.| `5` |
+| `WAIT_TIME_MINUTES`| Number of minutes to wait before retrying on an empty feed between Monday and Saturday.| `5` |
 | `MAX_ATTEMPTS`| Maximum number of attempts when feed empty (`-1` for no limit). | `-1`                               |
 | `MAX_RECONNECT_ATTEMPTS`| Maximum number of attempts when no connection with feed server (`-1` for no limit).  | `5` |
 | `RECONNECT_TIME_MINUTES`| How long to wait before reconnecting attempt.         | `1`                                |
@@ -82,14 +82,17 @@ Test your setup using the following steps:
 Once you test your settings, deploy the container to a local Docker instance, such as a Raspberry Pi, on-premise or remote server or cloud environment.
 No public IP address is required for the solution to work, thanks to the Surge service.
 
-Depending on your setup, make sure `docker run --rm --env-file /location/to/your/env-file grabidev/econ-parser:latest` is executed every morning.
+Depending on your setup, make sure `docker run --rm --name YOUR_CONTAINER_NAME --env-file /location/to/your/env-file grabidev/econ-parser:latest` is executed every morning.
 Use your target operating system's best practices to schedule the job.
+
+When executing the above command, logs are normally deleted together with the container when it exits due to `--rm` switch.
+You might want to alter the command to connect it to your custom logging driver and persist container logs.
 
 In Britain, the task should run around 7:00am UTC.
 Regional editions of The Economist will have different release times for their briefings.
 
 # Create a custom Alexa skill
-In this step, you will create a custom Alexa skill to read your briefing.xml file and 
+In this step, you will create a custom Alexa skill to read your briefing.xml file and link it to your Flash Briefings. 
 
 1. Create [Alexa Skill Blueprints](https://blueprints.amazon.com/) profile.
 2. Click `Flash Briefings` on the main page.
