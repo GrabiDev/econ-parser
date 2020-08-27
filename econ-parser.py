@@ -92,8 +92,8 @@ def get_output_tree(root):
       # record new failed attempts
       failed_attempts += 1
       # then wait, download new feed and recursively try again
-      log.info('Going to sleep for {sleep_time} minutes before retrieving new feed.'.format(sleep_time=RECONNECT_TIME_MINUTES))
-      sleep(WAIT_INTERVAL_MINUTES*60)
+      log.info('Going to sleep for {sleep_time} minutes before retrieving new feed.'.format(sleep_time=WAIT_TIME_MINUTES))
+      sleep(WAIT_TIME_MINUTES*60)
       new_root = get_root(BRIEFING_URL)
 
       return get_output_tree(new_root)
