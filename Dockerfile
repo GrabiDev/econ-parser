@@ -1,9 +1,11 @@
 # Pass BRIEFING_URL, SURGE_LOGIN, SURGE_TOKEN and SURGE_DOMAIN environmental variables when running
-FROM node:14-stretch-slim
+FROM node:14-alpine
+# update package index
+RUN apk update
 # install Python 3
-RUN apt update && apt install -y python3
+RUN apk add python3
 # install root CA certificates for HTTPS support
-RUN apt install -y ca-certificates
+RUN apk add ca-certificates
 # install surge.sh CLI as root
 RUN npm -g install surge
 # switch to regular user
@@ -15,4 +17,4 @@ ENV APP_PATH '/app'
 COPY --chown=node:node . $APP_PATH
 # run script
 WORKDIR $APP_PATH
-CMD bash ./deploy-to-surge.sh
+CMD sh ./deploy-to-surge.sh

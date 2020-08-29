@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/sh
 mkdir ./public
 python3 econ-parser.py
 echo -e "machine surge.surge.sh\n" >> $HOME/.netrc
