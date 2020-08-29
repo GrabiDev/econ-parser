@@ -1,5 +1,9 @@
 # Pass BRIEFING_URL, SURGE_LOGIN, SURGE_TOKEN and SURGE_DOMAIN environmental variables when running
 FROM node:14-stretch-slim
+# install Python 3
+RUN apt update && apt install -y python3
+# install root CA certificates for HTTPS support
+RUN apt install -y ca-certificates
 # install surge.sh CLI as root
 RUN npm -g install surge
 # switch to regular user
