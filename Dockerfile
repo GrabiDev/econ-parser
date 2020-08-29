@@ -1,5 +1,5 @@
 # Pass BRIEFING_URL, SURGE_LOGIN, SURGE_TOKEN and SURGE_DOMAIN environmental variables when running
-FROM node:14.3-stretch
+FROM node:14-stretch-slim
 # install surge.sh CLI as root
 RUN npm -g install surge
 # switch to regular user
